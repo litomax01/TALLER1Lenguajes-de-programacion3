@@ -1,15 +1,15 @@
 package com.itsqmet.centroMedico.entity;
-
 import jakarta.validation.constraints.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 
-@Document(collection = "doctores")
+import java.util.List;
+
+@Entity
 public class Doctor {
 
     @Id
-    @NotBlank(message = "El ID no puede estar vacío")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank(message = "La cédula es obligatoria")
     @Size(min = 10, max = 10, message = "La cédula debe tener 10 dígitos")
@@ -41,14 +41,18 @@ public class Doctor {
     @Size(min = 6, max = 20, message = "La contraseña debe tener entre 6 y 20 caracteres")
     private String contrasenia;
 
+    //relacion con cita
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+    private List<Cita> citas;
+
     public Doctor() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -106,5 +110,13 @@ public class Doctor {
 
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
+    }
+
+    public List<Cita> getCitas() {
+        return citas;
+    }
+
+    public void setCitas(List<Cita> citas) {
+        this.citas = citas;
     }
 }

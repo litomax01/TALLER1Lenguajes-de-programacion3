@@ -4,7 +4,6 @@ import com.itsqmet.centroMedico.entity.Doctor;
 import com.itsqmet.centroMedico.repository.DoctorRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +19,7 @@ public class DoctorServicio {
     }
 
     //buscar doctores por id
-    public Optional<Doctor> buscarDoctorPorId(String id) {
+    public Optional<Doctor> buscarDoctorPorId(Long id) {
         return doctorRepositorio.findById(id);
     }
 
@@ -39,7 +38,13 @@ public class DoctorServicio {
     }
 
     //eliminar doctor
-    public void eliminarDoctor(String id) {
+    public void eliminarDoctor(Long id) {
         doctorRepositorio.deleteById(id);
     }
+
+    //metodo de autenticacion
+    public Optional<Doctor> autenticarDoctor(String correo, String contrasenia) {
+        return doctorRepositorio.findByCorreoAndContrasenia(correo, contrasenia);
+    }
+
 }

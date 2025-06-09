@@ -43,4 +43,9 @@ public class FarmaceuticoServicio {
     public void eliminarFarmaceutico(String id) {
         farmaceuticoRepositorio.deleteById(id);
     }
+
+    //metodo de autenticacion
+    public Optional<Farmaceutico> autenticarFarmaceutico(String correo, String contrasenia) {
+        return farmaceuticoRepositorio.findByCorreoAndContrasenia(correo, contrasenia);
+    }
 }

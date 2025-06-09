@@ -2,70 +2,81 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <title>Registro de Farmacéutico</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-    <title>Registro de Farmaceutico</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
-<body>
-<h1>Registro del Farmaceutico</h1>
-<!--Formulario-->
-<form th:action="@{/guardarFarmaceutico}" method="post" th:object="${farmaceutico}" class="max-w-sm mx-auto">
-    <div>
-        <label for="id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo</label>
-        <input type="text" th:field="*{id}" id="id"
-               class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    </div>
+<body class="bg-[#f0f8ff] text-gray-800">
 
-    <div>
-        <label for="cedula" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cedula</label>
-        <input type="text" th:field="*{cedula}" id="cedula"
-               class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    </div>
+<section class="max-w-xl mx-auto mt-12 mb-12 p-8 bg-white rounded-xl shadow-lg">
+    <h1 class="text-3xl text-center font-bold text-blue-800 mb-6">Registro de Farmacéutico</h1>
 
-    <div>
-        <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
-        <input type="text" th:field="*{nombre}" id="nombre"
-               class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    </div>
+    <form th:action="@{/guardarFarmaceutico}" method="post" th:object="${farmaceutico}" class="space-y-5">
+        <div>
+            <!--<label for="id" class="block mb-1 text-sm font-semibold text-gray-700">Código</label>-->
+            <input type="text" th:field="*{id}" id="id"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" hidden>
+        </div>
 
-    <div>
-        <label for="apellido"
-               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellido</label>
-        <input type="text" th:field="*{apellido}" id="apellido"
-               class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    </div>
+        <div>
+            <label for="cedula" class="block mb-1 text-sm font-semibold text-gray-700">Cédula</label>
+            <input type="text" th:field="*{cedula}" id="cedula"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+            <div th:if="${#fields.hasErrors('cedula')}" th:errors="*{cedula}" class="text-red-600 text-sm mt-1"></div>
+        </div>
 
-    <div>
-        <label for="edad" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Edad</label>
-        <input type="number" th:field="*{edad}" id="edad"
-               class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    </div>
+        <div>
+            <label for="nombre" class="block mb-1 text-sm font-semibold text-gray-700">Nombre</label>
+            <input type="text" th:field="*{nombre}" id="nombre"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+            <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="text-red-600 text-sm mt-1"></div>
+        </div>
 
-    <div>
-        <label for="direccion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Direccion</label>
-        <input type="text" th:field="*{direccion}" id="direccion"
-               class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    </div>
+        <div>
+            <label for="apellido" class="block mb-1 text-sm font-semibold text-gray-700">Apellido</label>
+            <input type="text" th:field="*{apellido}" id="apellido"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+            <div th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="text-red-600 text-sm mt-1"></div>
+        </div>
 
-    <div>
-        <label for="correo"
-               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Correo</label>
-        <input type="email" th:field="*{correo}" id="correo"
-               class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    </div>
+        <div>
+            <label for="edad" class="block mb-1 text-sm font-semibold text-gray-700">Edad</label>
+            <input type="number" th:field="*{edad}" id="edad"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+            <div th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}" class="text-red-600 text-sm mt-1"></div>
+        </div>
 
-    <div>
-        <label for="contrasenia" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
-        <input type="password" th:field="*{contrasenia}" id="contrasenia"
-               class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    </div>
+        <div>
+            <label for="direccion" class="block mb-1 text-sm font-semibold text-gray-700">Dirección</label>
+            <input type="text" th:field="*{direccion}" id="direccion"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+            <div th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}" class="text-red-600 text-sm mt-1"></div>
+        </div>
 
-    <button type="submit"
-            class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Guardar
-    </button>
-    <a th:href="@{/loginFarmaceutico}">¿Ya estás registrado? Ingresa ahora</a>
-</form>
+        <div>
+            <label for="correo" class="block mb-1 text-sm font-semibold text-gray-700">Correo</label>
+            <input type="email" th:field="*{correo}" id="correo"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+            <div th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}" class="text-red-600 text-sm mt-1"></div>
+        </div>
+
+        <div>
+            <label for="contrasenia" class="block mb-1 text-sm font-semibold text-gray-700">Contraseña</label>
+            <input type="password" th:field="*{contrasenia}" id="contrasenia"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+            <div th:if="${#fields.hasErrors('contrasenia')}" th:errors="*{contrasenia}" class="text-red-600 text-sm mt-1"></div>
+        </div>
+
+        <div class="flex flex-col items-center justify-center mt-6 space-y-2">
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+                Guardar
+            </button>
+            <a th:href="@{/loginFarmaceutico}" class="text-blue-600 hover:underline text-sm">¿Ya estás registrado? Ingresa ahora</a>
+        </div>
+    </form>
+</section>
+
 </body>
 </html>

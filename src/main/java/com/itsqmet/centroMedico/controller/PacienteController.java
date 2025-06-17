@@ -1,15 +1,21 @@
 package com.itsqmet.centroMedico.controller;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itsqmet.centroMedico.entity.Cita;
 import com.itsqmet.centroMedico.entity.Paciente;
 import com.itsqmet.centroMedico.service.PacienteServicio;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,14 +49,18 @@ public class PacienteController {
     }
 
     @PostMapping("/guardarPaciente")
-    public String guardarPaciente(Paciente paciente) {
+    public String guardarPaciente(@Valid @ModelAttribute("paciente") Paciente paciente,
+                                BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "pages/registerPaciente";
+        }
         pacienteServicio.guardarPaciente(paciente);
         return "redirect:/listaPaciente";
     }
 
     //actualizar paciente
     @GetMapping("/editarPaciente/{id}")
-    public String actualizarPaciente(@PathVariable String id, Model model) {
+    public String actualizarPaciente(@PathVariable Long id, Model model) {
         Optional<Paciente> paciente = pacienteServicio.buscarPacientePorId(id);
         model.addAttribute("paciente", paciente);
         return "pages/registerPaciente";
@@ -61,5 +71,40 @@ public class PacienteController {
     public String eliminarPaciente(@PathVariable String id) {
         pacienteServicio.eliminarPaciente(id);
         return "redirect:/listaPaciente";
+    }
+
+    //para la utenticacion
+    @PostMapping("/loginPaciente")
+    public String procesarLoginPaciente(@ModelAttribute("paciente") Paciente paciente, Model model) {
+        Optional<Paciente> pacienteEncontrado = pacienteServicio.autenticarPaciente(paciente.getCorreo(), paciente.getContrasenia());
+        if (pacienteEncontrado.isPresent()) {
+            model.addAttribute("cita", new Cita());
+            model.addAttribute("pacientes", pacienteServicio.mostrarPacientes());
+            return "pages/registerCita";
+        } else {
+            model.addAttribute("error", "Credenciales incorrectas");
+            return "pages/loginPaciente";
+        }
+    }
+
+    //metodo para generar un listado pdf
+    @GetMapping("/pacientesPDF")
+    public void exportPDF(HttpServletResponse response) throws IOException, DocumentException {
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=pacientes.pdf");
+
+        List<Paciente> pacientes = pacienteServicio.mostrarPacientes();
+
+        Document documento = new Document();
+        PdfWriter.getInstance(documento, response.getOutputStream());
+        documento.open();
+        documento.add(new Paragraph("LISTADO DE PACIENTES"));
+        documento.add(new Paragraph(" "));
+
+        for (Paciente paciente : pacientes) {
+            documento.add(new Paragraph(paciente.getId() + "-" + paciente.getCedula() + "-"
+                    + paciente.getNombre()+ "-" + paciente.getApellido()));
+        }
+        documento.close();
     }
 }

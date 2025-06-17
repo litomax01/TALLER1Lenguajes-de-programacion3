@@ -1,11 +1,9 @@
 package com.itsqmet.centroMedico.service;
-
 import com.itsqmet.centroMedico.entity.Doctor;
 import com.itsqmet.centroMedico.entity.Enfermero;
 import com.itsqmet.centroMedico.repository.EnfermeroRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -41,5 +39,10 @@ public class EnfermeroServicio {
     //eliminar enfermero
     public void eliminarEnfermero(String id) {
         enfermeroRepositorio.deleteById(id);
+    }
+
+    //metodo de autenticacion
+    public Optional<Enfermero> autenticarEnfermero(String correo, String contrasenia) {
+        return enfermeroRepositorio.findByCorreoAndContrasenia(correo, contrasenia);
     }
 }

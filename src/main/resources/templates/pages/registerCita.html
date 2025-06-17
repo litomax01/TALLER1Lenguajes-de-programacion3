@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Citas</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+</head>
+<body class="bg-[#f0f8ff] text-gray-800">
+
+<h1>Registro de Citas</h1>
+<form th:action="@{/guardarCita}" method="post" th:object="${cita}">
+    <div class="mb-3">
+        <!--  <label for="id" class="form-label">Id</label>-->
+        <input type="number" class="form-control" id="id" th:field="*{id}" hidden>
+    </div>
+    <div class="mb-3">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input type="date" class="form-control" id="fecha" th:field="*{fecha}">
+    </div>
+    <div class="mb-3">
+        <label for="motivo" class="form-label">motivo</label>
+        <input type="text" class="form-control" id="motivo" th:field="*{motivo}">
+    </div>
+    <!--seleccionar paciente-->
+    <div class="mb-3">
+        <label for="paciente" class="form-label">Paciente</label>
+        <select id="paciente" th:field="*{paciente.id}">
+            <option th:each="paciente:${pacientes}" th:value="${paciente.id}"
+                    th:text="${paciente.nombre}">
+                Seleccione un paciente
+            </option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-guardar">Guardar</button>
+</form>
+</body>
+</html>
